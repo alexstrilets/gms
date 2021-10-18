@@ -2,7 +2,8 @@
 CREATE TABLE `sec_users` (
     `login` VARCHAR(255) NOT NULL,
     `pswd` VARCHAR(255) NOT NULL,
-    `name` VARCHAR(64),
+    `fname` VARCHAR(64),
+    `lname` VARCHAR(64),
     `email` VARCHAR(255),
     `active` VARCHAR(1),
     `activation_code` VARCHAR(32),
@@ -22,6 +23,7 @@ CREATE TABLE `sec_apps` (
 CREATE TABLE `sec_groups` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
+  `ldescription` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`group_id`),
   UNIQUE KEY `description` (`description`)
 )
@@ -33,9 +35,9 @@ CREATE TABLE `sec_users_groups` (
     PRIMARY KEY (`login`, `group_id`)
 )
 
-ALTER TABLE `sec_users_groups` ADD CONSTRAINT `sec_users_groups_ibfk_1` FOREIGN KEY (`login`) REFERENCES `sec_users` (`login`) ON DELETE CASCADE
+ALTER TABLE `sec_users_groups` ADD CONSTRAINT `sec_users_groups_ibfk_1` FOREIGN KEY (`login`) REFERENCES `sec_users` (`login`) ON DELETE RESTRICT
 
-ALTER TABLE `sec_users_groups` ADD CONSTRAINT `sec_users_groups_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `sec_groups` (`group_id`) ON DELETE CASCADE
+ALTER TABLE `sec_users_groups` ADD CONSTRAINT `sec_users_groups_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `sec_groups` (`group_id`) ON DELETE RESTRICT
 
 
 CREATE TABLE `sec_groups_apps` (
@@ -55,3 +57,25 @@ ALTER TABLE `sec_groups_apps` ADD CONSTRAINT `sec_groups_apps_ibfk_1` FOREIGN KE
 
 ALTER TABLE `sec_groups_apps` ADD CONSTRAINT `sec_groups_apps_ibfk_2` FOREIGN KEY (`app_name`) REFERENCES `sec_apps` (`app_name`) ON DELETE CASCADE
 
+--- Calendar
+DROP TABLE IF EXISTS `calendar_meetings`;
+CREATE TABLE IF NOT EXISTS `calendar_meetings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(300) NOT NULL,
+  `description` text,
+  `start_date` date NOT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `recurrence` varchar(1) DEFAULT NULL,
+  `period` varchar(1) DEFAULT NULL,
+  `category` int(11) DEFAULT NULL,
+  `id_api` varchar(255) DEFAULT NULL,
+  `id_event_google` varchar(255) DEFAULT NULL,
+  `recur_info` varchar(255) DEFAULT NULL,
+  `event_color` varchar(255) DEFAULT NULL,
+  `creator` varchar(255) DEFAULT NULL,
+  `reminder` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+COMMIT;
