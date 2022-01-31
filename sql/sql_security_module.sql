@@ -1,17 +1,21 @@
 
+DROP TABLE IF EXISTS `sec_users`;
 CREATE TABLE `sec_users` (
+    `_id` int(11) NOT NULL AUTO_INCREMENT,
     `login` VARCHAR(255) NOT NULL,
     `pswd` VARCHAR(255) NOT NULL,
     `fname` VARCHAR(64),
     `lname` VARCHAR(64),
     `email` VARCHAR(255),
+    `title` VARCHAR(255),
     `active` VARCHAR(1),
     `activation_code` VARCHAR(32),
-    `priv_admin` VARCHAR(1),
-    PRIMARY KEY (`login`)
+    `priv_admin` VARCHAR(1), 
+     PRIMARY KEY (`_id`),
+     UNIQUE KEY unique_login (login)
 )
 
-
+DROP TABLE IF EXISTS ``;
 CREATE TABLE `sec_apps` (
     `app_name` VARCHAR(128) NOT NULL,
     `app_type` VARCHAR(255),
@@ -19,7 +23,7 @@ CREATE TABLE `sec_apps` (
     PRIMARY KEY (`app_name`)
 )
 
-
+DROP TABLE IF EXISTS ``;
 CREATE TABLE `sec_groups` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
@@ -28,7 +32,7 @@ CREATE TABLE `sec_groups` (
   UNIQUE KEY `description` (`description`)
 )
 
-
+DROP TABLE IF EXISTS ``;
 CREATE TABLE `sec_users_groups` (
     `login` VARCHAR(255) NOT NULL,
     `group_id` int(11) NOT NULL,
@@ -39,7 +43,7 @@ ALTER TABLE `sec_users_groups` ADD CONSTRAINT `sec_users_groups_ibfk_1` FOREIGN 
 
 ALTER TABLE `sec_users_groups` ADD CONSTRAINT `sec_users_groups_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `sec_groups` (`group_id`) ON DELETE RESTRICT
 
-
+DROP TABLE IF EXISTS ``;
 CREATE TABLE `sec_groups_apps` (
     `group_id` int(11) NOT NULL,
     `app_name` VARCHAR(128) NOT NULL,
